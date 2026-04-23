@@ -29,6 +29,7 @@ public:
     bool SetPageImage(size_t n, const std::string& bmp_name) const;
     void SetPageText(size_t n, const wxString& strText);
     wxString GetPageText(size_t n) const;
+    Button* GetMenuButton() const { return m_menu_button; }
 
 private:
     wxFlexGridSizer*                m_buttons_sizer;
@@ -38,6 +39,7 @@ private:
     int                             m_selection {-1};
     int                             m_btn_margin;
     int                             m_line_margin;
+    Button*                         m_menu_button {nullptr};
     //ModeSizer*                      m_mode_sizer {nullptr};
 };
 
@@ -251,6 +253,8 @@ public:
     }
 
     ButtonsListCtrl* GetBtnsListCtrl() const { return static_cast<ButtonsListCtrl*>(m_bookctrl); }
+
+    Button* GetMenuButton() const { return GetBtnsListCtrl()->GetMenuButton(); }
 
     void UpdateMode()
     {

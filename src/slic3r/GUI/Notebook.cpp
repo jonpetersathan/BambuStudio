@@ -39,6 +39,19 @@ ButtonsListCtrl::ButtonsListCtrl(wxWindow *parent, wxBoxSizer* side_tools) :
     m_sizer = new wxBoxSizer(wxHORIZONTAL);
     this->SetSizer(m_sizer);
 
+#if defined(__linux__)
+    if (Slic3r::GUI::wxGetApp().app_config->get("use_system_title_bar") == "true") {
+        m_menu_button = new Button(this, "", "topbar_file", wxNO_BORDER);
+        m_menu_button->SetCornerRadius(0);
+        m_menu_button->SetMinSize({36 * em / 10, 36 * em / 10});
+        StateColor bg_color = StateColor(
+            std::pair<wxColour, int>(wxColour(107, 107, 107), (int) StateColor::Hovered),
+            std::pair<wxColour, int>(wxColour(59, 68, 70), (int) StateColor::Normal));
+        m_menu_button->SetBackgroundColor(bg_color);
+        m_sizer->Add(m_menu_button, 0, wxALIGN_CENTER_VERTICAL | wxLEFT | wxBOTTOM, m_btn_margin);
+    }
+#endif
+
     m_buttons_sizer = new wxFlexGridSizer(1, m_btn_margin, m_btn_margin);
     m_sizer->Add(m_buttons_sizer, 0, wxALIGN_CENTER_VERTICAL | wxLEFT | wxBOTTOM, m_btn_margin);
 
@@ -210,6 +223,8 @@ bool ButtonsListCtrl::InsertPage(size_t n, const wxString &text, bool bSelect /*
 
 void ButtonsListCtrl::RemovePage(size_t n)
 {
+    if (n >= m_pageButtons.size())
+        return;
     Button* btn = m_pageButtons[n];
     m_pageButtons.erase(m_pageButtons.begin() + n);
     m_buttons_sizer->Remove(n);

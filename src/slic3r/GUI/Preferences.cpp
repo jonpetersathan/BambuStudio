@@ -1305,6 +1305,10 @@ wxWindow* PreferencesDialog::create_general_page()
     std::vector<wxString> Units         = {_L("Metric") + " (mm, g)", _L("Imperial") + " (in, oz)"};
     auto item_currency = create_item_combobox(_L("Units"), page, _L("Units"), "use_inches", Units,{"0","1"});
     auto item_12h_time_format = create_item_checkbox(_L("Use 12-hour time format"), page, _L("Display time in 12-hour format with AM/PM instead of 24-hour format"), 50, "use_12h_time_format");
+
+#if defined(__linux__)
+    auto item_use_system_title_bar = create_item_checkbox(_L("Disable custom title bar (requires restart)"), page, _L("If enabled, the custom title bar is removed and the file menu moved to a new button."), 50, "use_system_title_bar");
+#endif
     auto item_single_instance = create_item_checkbox(_L("Keep only one Bambu Studio instance"), page,
 #if __APPLE__
         _L("On OSX there is always only one instance of app running by default. However it is allowed to run multiple instances "
@@ -1490,6 +1494,10 @@ wxWindow* PreferencesDialog::create_general_page()
     //sizer_page->Add(item_hints, 0, wxTOP, FromDIP(3));
     sizer_page->Add(item_multi_machine, 0, wxTOP, FromDIP(3));
     sizer_page->Add(item_12h_time_format, 0, wxTOP, FromDIP(3));
+
+#if defined(__linux__)
+    sizer_page->Add(item_use_system_title_bar, 0, wxTOP, FromDIP(3));
+#endif
     sizer_page->Add(item_step_mesh_setting, 0, wxTOP, FromDIP(3));
     sizer_page->Add(item_beta_version_update, 0, wxTOP, FromDIP(3));
     sizer_page->Add(item_auto_transfer_when_switch_preset, 0, wxTOP, FromDIP(3));

@@ -506,6 +506,10 @@ void AppConfig::set_defaults()
         set_bool("use_12h_time_format", false);
     }
 
+    if (get("use_system_title_bar").empty()) {
+        set_bool("use_system_title_bar", false);
+    }
+
     // Remove legacy window positions/sizes
     erase("app", "main_frame_maximized");
     erase("app", "main_frame_pos");

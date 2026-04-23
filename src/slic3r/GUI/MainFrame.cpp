@@ -161,7 +161,9 @@ static wxIcon main_frame_icon(GUI_App::EAppMode app_mode)
 }
 
 // BBS
-#ifndef __APPLE__
+#if defined(__linux__)
+#define BORDERLESS_FRAME_STYLE wxDEFAULT_FRAME_STYLE
+#elif !defined(__APPLE__)
 #define BORDERLESS_FRAME_STYLE (wxRESIZE_BORDER | wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxCLOSE_BOX)
 #else
 #define BORDERLESS_FRAME_STYLE (wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxCLOSE_BOX)
@@ -174,6 +176,16 @@ static const wxString ctrl = ("Ctrl+");
 #else
 static const wxString ctrl = _L("Ctrl+");
 #endif
+
+static bool use_bbl_topbar() {
+#if defined(__APPLE__)
+    return false;
+#elif defined(__linux__)
+    return wxGetApp().app_config->get("use_system_title_bar") != "true";
+#else
+    return true;
+#endif
+}
 
 MainFrame::MainFrame() :
 DPIFrame(NULL, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, BORDERLESS_FRAME_STYLE, "mainframe")
@@ -222,8 +234,10 @@ DPIFrame(NULL, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, BORDERLESS_FRAME_
     // Fonts were created by the DPIFrame constructor for the monitor, on which the window opened.
     wxGetApp().update_fonts(this);
 
-#ifndef __APPLE__
-    m_topbar         = new BBLTopbar(this);
+#if !defined(__APPLE__)
+    if (use_bbl_topbar()) {
+        m_topbar         = new BBLTopbar(this);
+    }
 #else
     auto panel_topbar = new wxPanel(this, wxID_ANY);
     panel_topbar->SetBackgroundColour(wxColour(38, 46, 48));
@@ -350,11 +364,13 @@ DPIFrame(NULL, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, BORDERLESS_FRAME_
     //Bind(wxEVT_MENU, [this](wxCommandEvent&) { m_plater->cut_selection_to_clipboard(); }, wxID_HIGHEST + wxID_CUT);
     Bind(wxEVT_SIZE, [this](wxSizeEvent&) {
             BOOST_LOG_TRIVIAL(trace) << "mainframe: size changed, is maximized = " << this->IsMaximized();
-#ifndef __APPLE__
-            if (this->IsMaximized()) {
-                m_topbar->SetWindowSize();
-            } else {
-                m_topbar->SetMaximizedSize();
+#if !defined(__APPLE__)
+            if (use_bbl_topbar()) {
+                if (this->IsMaximized()) {
+                    m_topbar->SetWindowSize();
+                } else {
+                    m_topbar->SetMaximizedSize();
+                }
             }
 #endif
 #ifdef _WIN32
@@ -402,10 +418,12 @@ DPIFrame(NULL, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, BORDERLESS_FRAME_
     // initialize layout
     m_main_sizer = new wxBoxSizer(wxVERTICAL);
     wxSizer* sizer = new wxBoxSizer(wxVERTICAL);
-#ifndef __APPLE__
-     sizer->Add(m_topbar, 0, wxEXPAND);
+#if !defined(__APPLE__)
+    if (use_bbl_topbar()) {
+        sizer->Add(m_topbar, 0, wxEXPAND);
+    }
 #else
-     sizer->Add(panel_topbar, 0, wxEXPAND);
+    sizer->Add(panel_topbar, 0, wxEXPAND);
 #endif // __WINDOWS__
 
 
@@ -1096,17 +1114,21 @@ void MainFrame::show_calibration_button(bool show, bool is_BBL)
         m_menubar->Insert(3, m_calib_menu, wxString::Format("&%s", _L("Calibration")));
     else
         m_menubar->Remove(3);
-#else
-    topbar()->ShowCalibrationButton(show);
+#elif !defined(__APPLE__)
+    if (use_bbl_topbar() && topbar())
+        topbar()->ShowCalibrationButton(show);
 #endif
     show = is_BBL;
     auto shown2 = m_tabpanel->FindPage(m_calibration) != wxNOT_FOUND;
     if (shown2 == show)
         ;
     else if (show)
-        m_tabpanel->InsertPage(tpCalibration, m_calibration, _L("Calibration"), std::string("tab_monitor_active"), std::string("tab_monitor_active"), false);
-    else
-        m_tabpanel->RemovePage(tpCalibration);
+        m_tabpanel->InsertPage(m_tabpanel->GetPageCount(), m_calibration, _L("Calibration"), std::string("tab_monitor_active"), std::string("tab_monitor_active"), false);
+    else {
+        int idx = m_tabpanel->FindPage(m_calibration);
+        if (idx != wxNOT_FOUND)
+            m_tabpanel->RemovePage(idx);
+    }
 }
 
 void MainFrame::update_title_colour_after_set_title()
@@ -1288,12 +1310,14 @@ void MainFrame::init_tabpanel()
             if (agent)
                 agent->track_update_property("select_device_page", std::to_string(++select_device_page_count));
         }
-#ifndef __APPLE__
-        if (sel == tp3DEditor) {
-            m_topbar->EnableUndoRedoItems();
-        }
-        else {
-            m_topbar->DisableUndoRedoItems();
+#if !defined(__APPLE__)
+        if (use_bbl_topbar() && m_topbar) {
+            if (sel == tp3DEditor) {
+                m_topbar->EnableUndoRedoItems();
+            }
+            else {
+                m_topbar->DisableUndoRedoItems();
+            }
         }
 #endif
 #ifndef __WXGTK__
@@ -2442,9 +2466,11 @@ void MainFrame::on_dpi_changed(const wxRect& suggested_rect)
         dynamic_cast<Notebook*>(m_tabpanel)->Rescale();
 #endif
 
-#ifndef __APPLE__
+#if !defined(__APPLE__)
     // BBS
-    m_topbar->Rescale();
+    if (use_bbl_topbar() && m_topbar) {
+        m_topbar->Rescale();
+    }
 #endif
 
     m_tabpanel->Rescale();
@@ -3164,9 +3190,10 @@ void MainFrame::init_menubar_as_editor()
             L("Quit BambuStudio")
         };
 #else
-    wxMenu* parent_menu = m_topbar->GetTopMenu();
-    auto preference_item = new wxMenuItem(parent_menu, ConfigMenuPreferences + config_id_base, _L("Preferences") + "\t" + ctrl + "P", "");
-
+    if (use_bbl_topbar()) {
+        wxMenu* parent_menu = m_topbar->GetTopMenu();
+        auto preference_item = new wxMenuItem(parent_menu, ConfigMenuPreferences + config_id_base, _L("Preferences") + "\t" + ctrl + "P", "");
+    }
 #endif
     //auto printer_item = new wxMenuItem(parent_menu, ConfigMenuPrinter + config_id_base, _L("Printer"), "");
     //auto language_item = new wxMenuItem(parent_menu, ConfigMenuLanguage + config_id_base, _L("Switch Language"), "");
@@ -3291,8 +3318,9 @@ void MainFrame::init_menubar_as_editor()
     // Help menu
     auto helpMenu = generate_help_menu();
 
-#ifndef __APPLE__
-    m_topbar->SetFileMenu(fileMenu);
+#if !defined(__APPLE__)
+    if (use_bbl_topbar()) {
+        m_topbar->SetFileMenu(fileMenu);
     if (editMenu)
         m_topbar->AddDropDownSubMenu(editMenu, _L("Edit"));
     if (viewMenu)
@@ -3405,7 +3433,56 @@ void MainFrame::init_menubar_as_editor()
             [this]() {return m_plater->is_view3D_shown();; }, this);
 
     }
+    }
+#endif
+#if defined(__linux__)
+    if (!use_bbl_topbar()) {
+        m_linux_master_menu = new wxMenu();
+    m_linux_master_menu->AppendSubMenu(fileMenu, _L("File"));
+    if (editMenu)
+        m_linux_master_menu->AppendSubMenu(editMenu, _L("Edit"));
+    if (viewMenu)
+        m_linux_master_menu->AppendSubMenu(viewMenu, _L("View"));
+
+    append_menu_item(
+        m_linux_master_menu, wxID_ANY, _L("Preferences") + "\t" + ctrl + "P", "",
+        [this](wxCommandEvent &) {
+            PreferencesDialog dlg(this);
+            dlg.ShowModal();
+#if ENABLE_GCODE_LINES_ID_IN_H_SLIDER
+            if (dlg.seq_top_layer_only_changed() || dlg.seq_seq_top_gcode_indices_changed())
 #else
+            if (dlg.seq_top_layer_only_changed())
+#endif
+                plater()->refresh_print();
+
+            // Refresh recent list if time format changed
+            if (dlg.use_12h_time_format_changed() && m_webview) {
+                wxGetApp().CallAfter([this]() {
+                    if (m_webview) {
+                        m_webview->SendRecentList(-1);
+                    }
+                });
+            }
+        },
+        "", nullptr, []() { return true; }, this);
+
+    m_linux_master_menu->AppendSubMenu(helpMenu, _L("Help"));
+
+
+
+    if (m_tabpanel && m_tabpanel->GetMenuButton()) {
+        m_tabpanel->GetMenuButton()->Bind(wxEVT_BUTTON, [this](wxCommandEvent& event) {
+            Button* btn = m_tabpanel->GetMenuButton();
+            wxPoint pos = btn->GetPosition();
+            pos.y += btn->GetSize().y;
+            btn->PopupMenu(m_linux_master_menu, pos);
+        });
+    }
+    }
+#endif
+
+#if defined(__APPLE__)
     m_menubar->Append(fileMenu, wxString::Format("&%s", _L("File")));
     if (editMenu)
         m_menubar->Append(editMenu, wxString::Format("&%s", _L("Edit")));
