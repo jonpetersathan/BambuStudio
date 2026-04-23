@@ -3477,6 +3477,11 @@ void MainFrame::init_menubar_as_editor()
             wxPoint pos = btn->GetPosition();
             pos.y += btn->GetSize().y;
             btn->PopupMenu(m_linux_master_menu, pos);
+            
+            // Clear pressed states
+            wxMouseEvent leave_evt(wxEVT_LEAVE_WINDOW);
+            leave_evt.SetEventObject(btn);
+            btn->GetEventHandler()->ProcessEvent(leave_evt);
         });
     }
     }
