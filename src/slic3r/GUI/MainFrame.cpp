@@ -180,15 +180,13 @@ static const wxString ctrl = _L("Ctrl+");
 static bool use_bbl_topbar() {
 #if defined(__APPLE__)
     return false;
-#elif defined(__linux__)
-    return wxGetApp().app_config->get("use_system_title_bar") != "true";
 #else
-    return true;
+    return wxGetApp().app_config->get("use_system_title_bar") != "true";
 #endif
 }
 
 MainFrame::MainFrame() :
-DPIFrame(NULL, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, BORDERLESS_FRAME_STYLE, "mainframe")
+DPIFrame(NULL, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, use_bbl_topbar() ? BORDERLESS_FRAME_STYLE : wxDEFAULT_FRAME_STYLE, "mainframe")
     , m_printhost_queue_dlg(new PrintHostQueueDialog(this))
     // BBS
     , m_recent_projects(18)
@@ -200,11 +198,13 @@ DPIFrame(NULL, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, BORDERLESS_FRAME_
 #endif
 
 #ifdef _WIN32
-    // Enable DWM hardware-accelerated compositing for this borderless window.
-    // Without this, dragging the window by the title bar causes lag because
-    // DWM can't efficiently composite a frameless window during drag.
-    MARGINS margins = {0, 0, 0, 1};
-    DwmExtendFrameIntoClientArea((HWND)GetHandle(), &margins);
+    if (use_bbl_topbar()) {
+        // Enable DWM hardware-accelerated compositing for this borderless window.
+        // Without this, dragging the window by the title bar causes lag because
+        // DWM can't efficiently composite a frameless window during drag.
+        MARGINS margins = {0, 0, 0, 1};
+        DwmExtendFrameIntoClientArea((HWND)GetHandle(), &margins);
+    }
 #endif
 
     if (!wxGetApp().app_config->has("user_mode")) {
@@ -824,17 +824,19 @@ WXLRESULT MainFrame::MSWWindowProc(WXUINT nMsg, WXWPARAM wParam, WXLPARAM lParam
      * "WM_NCACTIVATE" message. */
     switch (nMsg) {
     case WM_NCACTIVATE: {
-        /* Returning 0 from this message disable the window from receiving activate events which is not
-        desirable. However When a visual style is not active (?) for this window, "lParam" is a handle to an
-        optional update region for the nonclient area of the window. If this parameter is set to -1,
-        DefWindowProc does not repaint the nonclient area to reflect the state change. */
-        lParam = -1;
+        if (use_bbl_topbar()) {
+            /* Returning 0 from this message disable the window from receiving activate events which is not
+            desirable. However When a visual style is not active (?) for this window, "lParam" is a handle to an
+            optional update region for the nonclient area of the window. If this parameter is set to -1,
+            DefWindowProc does not repaint the nonclient area to reflect the state change. */
+            lParam = -1;
+        }
         break;
     }
     /* To remove the standard window frame, you must handle the WM_NCCALCSIZE message, specifically when
     its wParam value is TRUE and the return value is 0 */
     case WM_NCCALCSIZE:
-        if (wParam) {
+        if (use_bbl_topbar() && wParam) {
             HWND hWnd = GetHandle();
             /* Detect whether window is maximized or not. We don't need to change the resize border when win is
              *  maximized because all resize borders are gone automatically */
@@ -859,7 +861,7 @@ WXLRESULT MainFrame::MSWWindowProc(WXUINT nMsg, WXWPARAM wParam, WXLPARAM lParam
         }
         break;
     case WM_GETMINMAXINFO: {
-        if (lParam) {
+        if (use_bbl_topbar() && lParam) {
             HWND hWnd = GetHandle();
             auto mmi = (MINMAXINFO *) lParam;
             HandleGetMinMaxInfo(mmi);
