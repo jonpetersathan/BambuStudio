@@ -8219,7 +8219,7 @@ msgstr "Lavado automático"
 msgid "Auto calculate flush volumes"
 msgstr "Calcular automáticamente los volúmenes de descarga"
 
-msgid "Multi-device Management(Take effect after restarting Studio)."
+msgid "Multi-device Management (Takes effect after restart)."
 msgstr "Administración de varios dispositivos (surte efecto después de reiniciar Studio)."
 
 msgid "With this option enabled, you can send a task to multiple devices at the same time and manage multiple devices."
@@ -8797,6 +8797,12 @@ msgstr "Placa frío Bambu"
 
 msgid "Bamabu Engineering Plate"
 msgstr "Placa de Ingenieria Bambu"
+
+msgid "Disable custom title bar (Takes effect after restart)."
+msgstr "Desactivar la barra de título personalizada (se aplica tras reiniciar)."
+
+msgid "If enabled, the custom title bar is removed and the file menu moved to a new button."
+msgstr "Si está activado, se elimina la barra de título personalizada y el menú de archivos se mueve a un botón nuevo."
 
 msgid "Bamabu Smooth PEI Plate"
 msgstr "Placa PEI lisa Bambu"

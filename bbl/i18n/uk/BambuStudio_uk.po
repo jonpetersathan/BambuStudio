@@ -8150,7 +8150,7 @@ msgstr ""
 msgid "Auto calculate flush volumes"
 msgstr ""
 
-msgid "Multi-device Management(Take effect after restarting Studio)."
+msgid "Multi-device Management (Takes effect after restart)."
 msgstr "Керування багато пристроями (набуде чинності після перезапуску Студії)."
 
 msgid "With this option enabled, you can send a task to multiple devices at the same time and manage multiple devices."
@@ -8612,6 +8612,12 @@ msgstr "Завантаження 3mf"
 
 msgid "Jump to model publish web page"
 msgstr "Перейти на веб-сторінку публікації моделі"
+
+msgid "Disable custom title bar (Takes effect after restart)."
+msgstr "Вимкнути налаштовуваний заголовок вікна (набирає чинності після перезапуску)."
+
+msgid "If enabled, the custom title bar is removed and the file menu moved to a new button."
+msgstr "Якщо увімкнено, налаштовуваний заголовок вікна видаляється, а меню файлів переміщується на кнопку."
 
 msgid "Note: The preparation may take several minutes. Please be patient."
 msgstr "Примітка: Підготовка може зайняти кілька хвилин. Будь ласка, будьте терплячі."
@@ -20128,3 +20134,10 @@ msgstr ""
 
 #~ msgid "tree"
 #~ msgstr "tree"
+
+msgid "Disable custom title bar (Takes effect after restart)."
+msgstr "Вимкнути налаштовуваний заголовок вікна (набирає чинності після перезапуску)."
+
+msgid "If enabled, the custom title bar is removed and the file menu moved to a new button."
+msgstr "Якщо увімкнено, налаштовуваний заголовок вікна видаляється, а меню файлів переміщується на нову кнопку."
+

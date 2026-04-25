@@ -8780,6 +8780,12 @@ msgstr "Bambu Engineering Plate"
 msgid "Bamabu Smooth PEI Plate"
 msgstr "Bambu Smooth PEI Plate"
 
+msgid "Disable custom title bar (Takes effect after restart)."
+msgstr "Désactiver la barre de titre personnalisée (prend effet après redémarrage)."
+
+msgid "If enabled, the custom title bar is removed and the file menu moved to a new button."
+msgstr "Si activé, la barre de titre personnalisée est supprimée et le menu fichier est déplacé vers un nouveau bouton."
+
 msgid "High temperature Plate"
 msgstr "High Temperature Plate"
 

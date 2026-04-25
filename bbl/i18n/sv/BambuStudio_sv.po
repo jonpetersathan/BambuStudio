@@ -8212,7 +8212,7 @@ msgstr "Auto rensa"
 msgid "Auto calculate flush volumes"
 msgstr "Beräkna tömnings volymer automatiskt"
 
-msgid "Multi-device Management(Take effect after restarting Studio)."
+msgid "Multi-device Management (Takes effect after restart)."
 msgstr "Hantering av flera enheter (träder i kraft efter omstart av Studio)."
 
 msgid "With this option enabled, you can send a task to multiple devices at the same time and manage multiple devices."
@@ -8796,6 +8796,12 @@ msgstr "Bambu Lab Slät PEI-platta"
 
 msgid "High temperature Plate"
 msgstr "Högtemperatur platta"
+
+msgid "Disable custom title bar (Takes effect after restart)."
+msgstr "Inaktivera anpassad titellist (träder i kraft efter omstart)."
+
+msgid "If enabled, the custom title bar is removed and the file menu moved to a new button."
+msgstr "Om aktiverat tas den anpassade titellisten bort och filmenyn flyttas till en ny knapp."
 
 msgid "Bamabu Textured PEI Plate"
 msgstr "Bambu Lab texturerad PEI-platta"
@@ -21084,3 +21090,9 @@ msgstr ""
 
 #~ msgid "⌥+Left mouse button"
 #~ msgstr "⌥+Vänster musknapp"
+
+msgid "Disable custom title bar (Takes effect after restart)."
+msgstr "Inaktivera anpassad titellist (träder i kraft efter omstart)."
+
+msgid "If enabled, the custom title bar is removed and the file menu moved to a new button."
+msgstr "Om aktiverat tas den anpassade titellisten bort och filmenyn flyttas till en ny knapp."

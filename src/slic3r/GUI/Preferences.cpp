@@ -1306,8 +1306,8 @@ wxWindow* PreferencesDialog::create_general_page()
     auto item_currency = create_item_combobox(_L("Units"), page, _L("Units"), "use_inches", Units,{"0","1"});
     auto item_12h_time_format = create_item_checkbox(_L("Use 12-hour time format"), page, _L("Display time in 12-hour format with AM/PM instead of 24-hour format"), 50, "use_12h_time_format");
 
-#if defined(__linux__)
-    auto item_use_system_title_bar = create_item_checkbox(_L("Disable custom title bar (requires restart)"), page, _L("If enabled, the custom title bar is removed and the file menu moved to a new button."), 50, "use_system_title_bar");
+#if defined(__linux__) || defined(_WIN32)
+    auto item_use_system_title_bar = create_item_checkbox(_L("Disable custom title bar (Takes effect after restart)."), page, _L("If enabled, the custom title bar is removed and the file menu moved to a new button."), 50, "use_system_title_bar");
 #endif
     auto item_single_instance = create_item_checkbox(_L("Keep only one Bambu Studio instance"), page,
 #if __APPLE__
@@ -1326,7 +1326,7 @@ wxWindow* PreferencesDialog::create_general_page()
     std::vector<std::string> FlushOptionValues = { "all","color change","disabled" };
     auto item_auto_flush = create_item_combobox(_L("Auto Flush"), page, _L("Auto calculate flush volumes"), "auto_calculate_flush", FlushOptionLabels, FlushOptionValues);
     //auto item_hints = create_item_checkbox(_L("Show \"Tip of the day\" notification after start"), page, _L("If enabled, useful hints are displayed at startup."), 50, "show_hints");
-    auto item_multi_machine = create_item_checkbox(_L("Multi-device Management(Take effect after restarting Studio)."), page, _L("With this option enabled, you can send a task to multiple devices at the same time and manage multiple devices."), 50, "enable_multi_machine");
+    auto item_multi_machine = create_item_checkbox(_L("Multi-device Management (Takes effect after restart)."), page, _L("With this option enabled, you can send a task to multiple devices at the same time and manage multiple devices."), 50, "enable_multi_machine");
     auto item_step_mesh_setting = create_item_checkbox(_L("Show the step mesh parameter setting dialog."), page, _L("If enabled,a parameter settings dialog will appear during STEP file import."), 50, "enable_step_mesh_setting");
     auto item_beta_version_update = create_item_checkbox(_L("Support beta version update."), page, _L("With this option enabled, you can receive beta version updates."), 50, "enable_beta_version_update");
     auto item_mix_print_high_low_temperature = create_item_checkbox(_L("Remove the restriction on mixed printing of high and low temperature filaments."), page, _L("With this option enabled, you can print materials with a large temperature difference together."), 50, "enable_high_low_temp_mixed_printing");

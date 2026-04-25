@@ -8221,7 +8221,7 @@ msgstr "Automatyczne płukanie"
 msgid "Auto calculate flush volumes"
 msgstr "Automatyczne obliczanie objętości płukania"
 
-msgid "Multi-device Management(Take effect after restarting Studio)."
+msgid "Multi-device Management (Takes effect after restart)."
 msgstr "Obsługa wielu urządzeń (zacznie być aktywna po ponownym uruchomieniu Studio)"
 
 msgid "With this option enabled, you can send a task to multiple devices at the same time and manage multiple devices."
@@ -8796,6 +8796,12 @@ msgstr "Zadanie anulowane"
 
 msgid "Bambu Cool Plate"
 msgstr "Bambu Cool Plate"
+
+msgid "Disable custom title bar (Takes effect after restart)."
+msgstr "Wyłącz niestandardowy pasek tytułu (wymaga ponownego uruchomienia)."
+
+msgid "If enabled, the custom title bar is removed and the file menu moved to a new button."
+msgstr "Po włączeniu niestandardowy pasek tytułu zostanie usunięty, a menu plików przeniesione do nowego przycisku."
 
 msgid "Bamabu Engineering Plate"
 msgstr "Bambu Engineering Plate"

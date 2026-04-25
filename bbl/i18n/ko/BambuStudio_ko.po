@@ -8205,7 +8205,7 @@ msgstr "자동 플러시"
 msgid "Auto calculate flush volumes"
 msgstr "플러시 볼륨 자동 계산"
 
-msgid "Multi-device Management(Take effect after restarting Studio)."
+msgid "Multi-device Management (Takes effect after restart)."
 msgstr "멀티 디바이스 관리(Studio를 재시작한 후 적용)."
 
 msgid "With this option enabled, you can send a task to multiple devices at the same time and manage multiple devices."
@@ -8786,6 +8786,12 @@ msgstr "Bambu Engineering Plate"
 
 msgid "Bamabu Smooth PEI Plate"
 msgstr "Bambu Smooth PEI Plate"
+
+msgid "Disable custom title bar (Takes effect after restart)."
+msgstr "사용자 지정 제목 표시줄 비활성화 (재시작 후 적용)."
+
+msgid "If enabled, the custom title bar is removed and the file menu moved to a new button."
+msgstr "활성화하면 사용자 지정 제목 표시줄이 제거되고 파일 메뉴가 새 버튼으로 이동합니다."
 
 msgid "High temperature Plate"
 msgstr "High Temperature Plate"

@@ -7993,7 +7993,7 @@ msgstr ""
 msgid "Auto calculate flush volumes"
 msgstr ""
 
-msgid "Multi-device Management(Take effect after restarting Studio)."
+msgid "Multi-device Management (Takes effect after restart)."
 msgstr ""
 
 msgid "With this option enabled, you can send a task to multiple devices at the same time and manage multiple devices."

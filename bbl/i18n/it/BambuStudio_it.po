@@ -8214,7 +8214,7 @@ msgstr "Spurgo Automatico"
 msgid "Auto calculate flush volumes"
 msgstr "Calcolo automatico dei volumi di spurgo"
 
-msgid "Multi-device Management(Take effect after restarting Studio)."
+msgid "Multi-device Management (Takes effect after restart)."
 msgstr "Gestione multi-device (Necessario riavvio di Studio)."
 
 msgid "With this option enabled, you can send a task to multiple devices at the same time and manage multiple devices."
@@ -8795,6 +8795,12 @@ msgstr "Bambu Engineering Plate"
 
 msgid "Bamabu Smooth PEI Plate"
 msgstr "Bambu Smooth PEI Plate"
+
+msgid "Disable custom title bar (Takes effect after restart)."
+msgstr "Disabilita barra del titolo personalizzata (ha effetto dopo il riavvio)."
+
+msgid "If enabled, the custom title bar is removed and the file menu moved to a new button."
+msgstr "Se abilitato, la barra del titolo personalizzata viene rimossa e il menu file spostato su un nuovo pulsante."
 
 msgid "High temperature Plate"
 msgstr "High temperature Plate"

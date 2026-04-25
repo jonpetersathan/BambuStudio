@@ -8117,8 +8117,8 @@ msgstr "Auto Purge"
 msgid "Auto calculate flush volumes"
 msgstr "Auto calculate purge volumes"
 
-msgid "Multi-device Management(Take effect after restarting Studio)."
-msgstr "Multi-device Management(Take effect after restarting Studio)."
+msgid "Multi-device Management (Take effect after restarting Studio)."
+msgstr "Multi-device Management (Take effect after restarting Studio)."
 
 msgid "With this option enabled, you can send a task to multiple devices at the same time and manage multiple devices."
 msgstr "With this option enabled, you can send a task to multiple devices at the same time and manage multiple devices."
@@ -8689,11 +8689,14 @@ msgstr "Task canceled"
 msgid "Bambu Cool Plate"
 msgstr "Bambu Cool Plate"
 
-msgid "Bamabu Engineering Plate"
-msgstr "Bambu Engineering Plate"
-
 msgid "Bamabu Smooth PEI Plate"
 msgstr "Bambu Smooth PEI Plate"
+
+msgid "Disable custom title bar (Takes effect after restart)."
+msgstr "Disable custom title bar (Takes effect after restart)."
+
+msgid "If enabled, the custom title bar is removed and the file menu moved to a new button."
+msgstr "If enabled, the custom title bar is removed and the file menu moved to a new button."
 
 msgid "High temperature Plate"
 msgstr "High temperature Plate"
@@ -19900,3 +19903,10 @@ msgstr ""
 
 #~ msgid "⌥+Left mouse button"
 #~ msgstr "⌥+Left mouse button"
+
+msgid "Disable custom title bar (Takes effect after restart)."
+msgstr ""
+
+msgid "If enabled, the custom title bar is removed and the file menu moved to a new button."
+msgstr ""
+
