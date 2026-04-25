@@ -302,6 +302,7 @@ public:
         // draw logo and constant info text
         Decorate(m_main_bitmap);
         wxGetApp().UpdateFrameDarkUI(this);
+        set_bitmap(m_main_bitmap);
     }
 
     void SetText(const wxString& text)
@@ -388,14 +389,12 @@ public:
         int width = FromDIP(480, nullptr);
         int height = FromDIP(480, nullptr);
 
-        wxImage image(width, height);
-        wxBitmap new_bmp(image);
+        wxBitmap new_bmp(width, height);
 
         wxMemoryDC memDC;
         memDC.SelectObject(new_bmp);
-        memDC.SetBrush(StateColor::darkModeColorFor(*wxWHITE));
-        memDC.DrawRectangle(-1, -1, width + 2, height + 2);
-        memDC.DrawBitmap(new_bmp, 0, 0, true);
+        memDC.SetBackground(wxBrush(StateColor::darkModeColorFor(*wxWHITE)));
+        memDC.Clear();
         return new_bmp;
     }
 
@@ -3040,9 +3039,7 @@ bool GUI_App::on_init_inner()
         BOOST_LOG_TRIVIAL(info) << "begin to show the splash screen...";
         //BBS use BBL splashScreen
         scrn = new BBLSplashScreen(bmp, wxSPLASH_CENTRE_ON_SCREEN | wxSPLASH_TIMEOUT, 10000, splashscreen_pos);
-#ifndef __linux__
         wxYield();
-#endif
         scrn->SetText(_L("Loading configuration")+ dots);
     }
 
