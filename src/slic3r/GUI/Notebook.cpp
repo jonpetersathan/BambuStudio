@@ -39,7 +39,7 @@ ButtonsListCtrl::ButtonsListCtrl(wxWindow *parent, wxBoxSizer* side_tools) :
     m_sizer = new wxBoxSizer(wxHORIZONTAL);
     this->SetSizer(m_sizer);
 
-#if defined(__linux__)
+#if defined(__linux__) || defined(_WIN32)
     if (Slic3r::GUI::wxGetApp().app_config->get("use_system_title_bar") == "true") {
         m_menu_button = new Button(this, "", "topbar_file", wxNO_BORDER);
         m_menu_button->SetCornerRadius(0);

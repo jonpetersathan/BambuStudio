@@ -880,7 +880,7 @@ WXLRESULT MainFrame::MSWWindowProc(WXUINT nMsg, WXWPARAM wParam, WXLPARAM lParam
         wxQueueEvent(wxGetApp().plater(), new SimpleEvent(EVT_NOTICE_CHILDE_SIZE_CHANGED));
         break;
     }
-    return wxFrame::MSWWindowProc(nMsg, wParam, lParam);
+    return DPIFrame::MSWWindowProc(nMsg, wParam, lParam);
 }
 
 #endif
@@ -1088,6 +1088,11 @@ void MainFrame::shutdown()
     wxGetApp().tabs_list.clear();
     wxGetApp().model_tabs_list.clear();
     wxGetApp().shutdown();
+
+    if (m_linux_master_menu) {
+        delete m_linux_master_menu;
+        m_linux_master_menu = nullptr;
+    }
     // BBS: why clear ?
     //wxGetApp().plater_ = nullptr;
 
@@ -3437,7 +3442,7 @@ void MainFrame::init_menubar_as_editor()
     }
     }
 #endif
-#if defined(__linux__)
+#if defined(__linux__) || defined(_WIN32)
     if (!use_bbl_topbar()) {
         m_linux_master_menu = new wxMenu();
     m_linux_master_menu->AppendSubMenu(fileMenu, _L("File"));
@@ -4392,8 +4397,10 @@ void MainFrame::technology_changed()
 
     // update menu titles
     PrinterTechnology pt = plater()->printer_technology();
-    if (int id = m_menubar->FindMenu(pt == ptFFF ? _omitL("Material Settings") : _L("Filament Settings")); id != wxNOT_FOUND)
-        m_menubar->SetMenuLabel(id, pt == ptSLA ? _omitL("Material Settings") : _L("Filament Settings"));
+    if (m_menubar) {
+        if (int id = m_menubar->FindMenu(pt == ptFFF ? _omitL("Material Settings") : _L("Filament Settings")); id != wxNOT_FOUND)
+            m_menubar->SetMenuLabel(id, pt == ptSLA ? _omitL("Material Settings") : _L("Filament Settings"));
+    }
 }
 
 

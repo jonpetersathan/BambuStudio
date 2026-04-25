@@ -1495,7 +1495,7 @@ wxWindow* PreferencesDialog::create_general_page()
     sizer_page->Add(item_multi_machine, 0, wxTOP, FromDIP(3));
     sizer_page->Add(item_12h_time_format, 0, wxTOP, FromDIP(3));
 
-#if defined(__linux__)
+#if defined(__linux__) || defined(_WIN32)
     sizer_page->Add(item_use_system_title_bar, 0, wxTOP, FromDIP(3));
 #endif
     sizer_page->Add(item_step_mesh_setting, 0, wxTOP, FromDIP(3));
